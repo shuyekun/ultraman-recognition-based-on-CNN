@@ -9,8 +9,8 @@ from keras.preprocessing.image import ImageDataGenerator
 base_dir = 'ultraman'
 
 # 指定每一种数据的位置
-train_dir = os.path.join(base_dir, 'train')
-validation_dir = os.path.join(base_dir, 'validation')
+train_dir = os.path.join(base_dir, '/train')
+validation_dir = os.path.join(base_dir, '/validation')
 
 model = tf.keras.models.Sequential([
     # input_shape为图像大小+彩色(RGB)3通道，32为滤波器数量，(5,5)为滤波器大小,使用relu作为激活函数
