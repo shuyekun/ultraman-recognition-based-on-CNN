@@ -14,9 +14,10 @@ test_generator = test_datagen.flow_from_directory(
 
 model = load_model('model.h5')
 
-# # 评估正确值模型
-# loss, acc = model.evaluate(test_generator)
-# print('Test accuracy:', acc)
+# 评估正确值模型
+loss, acc = model.evaluate(test_generator)
+print('Test loss:', loss)
+print('Test accuracy:', acc)
 
 # 预测
 predictions = model.predict(test_generator)

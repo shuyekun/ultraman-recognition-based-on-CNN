@@ -36,15 +36,15 @@ model.compile(loss='categorical_crossentropy',  # 损失函数使用交叉熵
 
 # 对图片进行预处理，将像素调整至[0，1]之间
 train_datagen = ImageDataGenerator(
-    rescale=1. / 255)
-# 可能的其余变换处理，待测试
-# rotation_range=40,
-# width_shift_range=0.2,
-# height_shift_range=0.2,
-# shear_range=0.2,
-# zoom_range=0.2,
-# horizontal_flip=True,
-# fill_mode='nearest'
+    rescale=1. / 255,
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
+)
 
 test_datagen = ImageDataGenerator(rescale=1. / 255)
 
@@ -63,10 +63,11 @@ validation_generator = test_datagen.flow_from_directory(validation_dir,  # 验�
 # 进行训练
 history = model.fit_generator(
     train_generator,  # 训练集数据
-    steps_per_epoch=20,  # 每个epoch训练多少次
-    epochs=15,  # 训练轮数，建议在[10,50]如果电脑训练速度快，可以大于50
+    steps_per_epoch=30,  # 每个epoch训练多少次
+    epochs=50,  # 训练轮数，建议在[10,50]如果电脑训练速度快，可以大于50
     validation_data=validation_generator,  # 验证集数据
     validation_steps=10,
     verbose=1)  # 训练进度显示方式，可取值0，1（显示训练进度条），2（一个epoch输出一条信息）
+
 # 保存训练的模型到当前目录
 model.save('model.h5')
