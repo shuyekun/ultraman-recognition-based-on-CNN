@@ -1,7 +1,7 @@
 from keras_preprocessing.image import ImageDataGenerator
 from keras.models import load_model
 import numpy as np
-
+#123
 # 加载测试数据
 root = "ultraman"
 test_dir = root + "/test"
