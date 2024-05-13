@@ -1,7 +1,7 @@
 from keras_preprocessing.image import ImageDataGenerator
 from keras.models import load_model
 import numpy as np
-#123
+
 # 加载测试数据
 root = "ultraman"
 test_dir = root + "/test"
@@ -10,7 +10,7 @@ test_generator = test_datagen.flow_from_directory(
     test_dir,  # 测试图片的位置
     batch_size=1,
     class_mode='categorical',
-    target_size=(256, 256))
+    target_size=(128, 128))
 
 model = load_model('model.h5')
 
