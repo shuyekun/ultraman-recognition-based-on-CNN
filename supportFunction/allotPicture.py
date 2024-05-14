@@ -40,5 +40,5 @@ def split_dataset_into_train_val_test(dataset_dir, train_dir, val_dir, test_dir,
 # 根目录路径
 # 自动将文件夹中的图片按比例分为train validation 和test
 # 默认比例为 7:2:1
-root = "ultraman"
+root = "../ultraman"
 split_dataset_into_train_val_test(root, root + '/train', root + '/validation', root + '/test')
