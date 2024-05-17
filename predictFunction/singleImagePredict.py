@@ -5,8 +5,8 @@ from keras.models import load_model
 model = load_model('../model.h5')
 
 # 图像路径
-img_path = '../ultraman/test/sailuo/0037.png'
-img = image.load_img(img_path, target_size=(128, 128))  # 调整图像大小以匹配模型的输入大小
+img_path = '../ultraman/test/daina/0029.jpg'
+img = image.load_img(img_path, target_size=(200, 200))  # 调整图像大小以匹配模型的输入大小
 
 # 将图像转换为数组
 img_array = image.img_to_array(img)

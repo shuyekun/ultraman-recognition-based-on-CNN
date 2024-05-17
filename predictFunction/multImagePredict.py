@@ -1,10 +1,8 @@
 import os
-import random
-
-from keras_preprocessing import image
-from keras_preprocessing.image import ImageDataGenerator, load_img, img_to_array
+from keras_preprocessing.image import ImageDataGenerator
 from keras.models import load_model
 import numpy as np
+from sklearn.metrics import classification_report, confusion_matrix
 
 # 加载测试数据
 root = "../ultraman"
@@ -14,7 +12,7 @@ test_generator = test_datagen.flow_from_directory(
     test_dir,  # 测试图片的位置
     batch_size=1,
     class_mode='categorical',
-    target_size=(128, 128))
+    target_size=(200, 200))
 
 # 加载模型
 model = load_model('../model.h5')
@@ -24,31 +22,26 @@ loss, acc = model.evaluate(test_generator)
 print('Test loss:', loss)
 print('Test accuracy:', acc)
 
-# 测试文件夹路径
-main_folder = '../ultraman/test'
-
-# 获取所有子文件夹
-folders = [os.path.join(main_folder, f) for f in os.listdir(main_folder) if os.path.isdir(os.path.join(main_folder, f))]
-
-
-# 预处理图像
-def preprocess_image(image_path):
-    img = load_img(image_path, target_size=(128, 128))
-    img_array = img_to_array(img)
-    img_array = np.expand_dims(img_array, axis=0)
-    return img_array
-
 
 labels = ['aidi', 'daina', 'dijia', 'gaiya', 'leiou', 'mengbiyousi', 'sailuo', 'saiwen', 'tailuo']
 
-# 在每个文件夹里随机选择 k 张图像进行预测
-for folder in folders:
-    images = os.listdir(folder)
-    selected_images = random.sample(images, 5)
-    for image in selected_images:
-        image_path = os.path.join(folder, image)
-        img_array = preprocess_image(image_path)
-        # verbose=0 表示不显示进度条
-        prediction = model.predict(img_array, verbose=0)
-        predicted_index = np.argmax(prediction)
-        print(f'预测图像:{os.path.basename(image_path)} 实际标签: {os.path.basename(folder)}, 预测标签: {labels[predicted_index]}')
+# 使用ImageDataGenerator来读取测试数据
+test_datagen = ImageDataGenerator(rescale=1./255)
+test_generator = test_datagen.flow_from_directory(
+    test_dir,
+    target_size=(200, 200),
+    batch_size=20,
+    class_mode='categorical',
+    shuffle=False)
+
+# 预测标签
+Y_pred = model.predict_generator(test_generator, len(test_generator))
+y_pred = np.argmax(Y_pred, axis=1)
+
+# 打印每个标签的分类报告
+print('分类情况')
+print(classification_report(test_generator.classes, y_pred, target_names=labels))
+
+# 打印混淆矩阵
+print('混淆矩阵')
+print(confusion_matrix(test_generator.classes, y_pred))

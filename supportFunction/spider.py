@@ -66,7 +66,7 @@ class BaiduImageSpider(object):
 
 if __name__ == '__main__':
     spider = BaiduImageSpider()
-    spider.json_count = 30   # 定义下载10组图像，也就是三百张
+    spider.json_count = 1   # 定义下载10组图像，也就是三百张
     spider.run()
 
 
