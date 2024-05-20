@@ -46,7 +46,7 @@ validation_generator = test_datagen.flow_from_directory(validation_dir,  # 验�
 history = model.fit(
     train_generator,  # 训练集数据
     steps_per_epoch=190,  # 每个epoch训练多少次
-    epochs=5,  # 训练轮数，建议在[10,50]如果电脑训练速度快，可以大于50
+    epochs=10,  # 训练轮数，建议在[10,50]如果电脑训练速度快，可以大于50
     validation_data=validation_generator,  # 验证集数据
     validation_steps=50,
     verbose=1)  # 训练进度显示方式，可取值0，1（显示训练进度条），2（一个epoch输出一条信息）

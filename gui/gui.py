@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import filedialog
+import numpy as np
 from PIL import Image, ImageTk
-from numpy import array, expand_dims, argmax
+from numpy import argmax
 from keras.models import load_model
+from keras_preprocessing import image
 
 model = load_model('../model.h5')
 labels = ['爱迪奥特曼', '戴拿奥特曼', '迪迦奥特曼', '盖亚奥特曼', '雷欧奥特曼', '梦比优斯奥特曼', '赛罗奥特曼',
@@ -21,16 +23,17 @@ ultraman_images = {
 
 
 def select_image():
-    # 使用文件对话框让用户选择一张图片
     file_path = filedialog.askopenfilename()
-    # 使用PIL库打开图片并缩放到合适的大小
-    img = Image.open(file_path)
 
     # 对图片进行预处理并使用模型进行预测
-    img = img.resize((200, 200))
-    img = array(img) / 255.0
-    img = expand_dims(img, axis=0)
-    prediction = model.predict(img)
+    img = image.load_img(file_path, target_size=(200, 200))  # 调整图像大小以匹配模型的输入大小
+    # 将图像转换为数组
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+
+    # 进行归一化
+    img_array /= 255.0
+    prediction = model.predict(img_array) 
 
     # 获取预测结果中概率最大的类别
     predicted_class = argmax(prediction[0])
